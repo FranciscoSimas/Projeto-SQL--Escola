@@ -224,12 +224,13 @@ DELIMITER ;
 
 ### Arquivos SQL
 
-1. [create_tables.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/create_tables.sql))
-3. [triggers.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/triggers.sql))
-4. [inserts.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/inserts.sql))
-5. [queries.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/queries.sql))
-6. [stored_procedures.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/stored_procedures.sql))
-7. [cursor.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/cursor.sql))
+1. [create_tables.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/create_tables.sql)
+2. [triggers.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/triggers.sql)
+3. [inserts.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/inserts.sql)
+4. [queries.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/queries.sql)
+5. [stored_procedures.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/stored_procedures.sql)
+6. [cursor.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/cursor.sql)
 
 ---
+
 
