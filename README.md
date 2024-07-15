@@ -224,12 +224,12 @@ DELIMITER ;
 
 ### Arquivos SQL
 
-1. [create_tables.sql](link_para_o_arquivo)
-2. [triggers.sql](link_para_o_arquivo)
-3. [inserts.sql](link_para_o_arquivo)
-4. [queries.sql](link_para_o_arquivo)
-5. [stored_procedures.sql](link_para_o_arquivo)
-6. [cursor.sql](link_para_o_arquivo)
+1. [create_tables.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/create_tables.sql))
+3. [triggers.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/triggers.sql))
+4. [inserts.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/inserts.sql))
+5. [queries.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/queries.sql))
+6. [stored_procedures.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/stored_procedures.sql))
+7. [cursor.sql]([link_para_o_arquivo](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/cursor.sql))
 
 ---
 
