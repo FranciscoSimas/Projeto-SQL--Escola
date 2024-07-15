@@ -1,19 +1,14 @@
-### Documentação do Projeto de Gestão Escolar
+## Documentação do Projeto de Gestão Escolar
 
-Este projeto é um sistema de gestão escolar que permite o controle de estudantes, professores, disciplinas, turmas e inscrições. O sistema foi desenvolvido utilizando MySQL para a criação e gestão do banco de dados.
-
----
-
-## Estrutura do Projeto
-
+### Estrutura do Projeto
 O projeto está organizado em diferentes arquivos SQL, cada um responsável por uma parte específica do sistema:
 
-1. **Criação de Tabelas** (`create_tables.sql`)
-2. **Triggers** (`triggers.sql`)
-3. **Inserção de Dados** (`inserts.sql`)
-4. **Consultas SQL** (`queries.sql`)
-5. **Stored Procedures** (`stored_procedures.sql`)
-6. **Cursor** (`cursor.sql`)
+1. **Criação de Tabelas** ([create_tables.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/create_tables.sql))
+2. **Triggers** ([triggers.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/triggers.sql))
+3. **Inserção de Dados** ([inserts.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/inserts.sql))
+4. **Consultas SQL** ([queries.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/queries.sql))
+5. **Stored Procedures** ([stored_procedures.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/stored_procedures.sql))
+6. **Cursor** ([cursor.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/cursor.sql))
 
 ---
 
@@ -109,7 +104,9 @@ O projeto está organizado em diferentes arquivos SQL, cada um responsável por 
         SELECT AVG(NotaFinal) INTO Media
         FROM Inscricoes
         WHERE EstudanteID = p_EstudanteID;
-        INSERT INTO NotasMedias (EstudanteID, MediaNotas)
+        INSERT INTO NotasMedias
+
+ (EstudanteID, MediaNotas)
         VALUES (p_EstudanteID, Media)
         ON DUPLICATE KEY UPDATE MediaNotas = Media;
     END;
@@ -195,42 +192,29 @@ DELIMITER ;
 
 ### Instruções para Configurar e Utilizar o Sistema
 
-1. **Instalação do MySQL**
-    - Baixe e instale o MySQL a partir do site oficial.
-    - Configure o MySQL com um usuário e senha.
+Este sistema de gestão escolar é projetado para gerenciar informações sobre estudantes, professores, disciplinas, turmas e inscrições. Abaixo, explicamos o funcionamento da base de dados e as relações entre as tabelas.
 
-2. **Criação do Banco de Dados**
-    - Execute o arquivo `create_tables.sql` para criar o banco de dados e as tabelas necessárias.
+#### Estrutura da Base de Dados
 
-3. **Configuração dos Triggers**
-    - Execute o arquivo `triggers.sql` para criar os triggers.
+#### Relações entre as Tabelas
 
-4. **Inserção de Dados**
-    - Execute o arquivo `inserts.sql` para inserir dados de exemplo nas tabelas.
+- **Estudantes e Inscrições**: Cada estudante pode se inscrever em várias turmas, e cada inscrição registra a nota final do estudante na turma correspondente.
+- **Professores e Turmas**: Cada turma é ministrada por um professor, e a relação é estabelecida através do ID do professor na tabela Turmas.
+- **Disciplinas e Turmas**: Cada turma está associada a uma disciplina específica, referenciada pelo ID da disciplina na tabela Turmas.
+- **Inscrições e Turmas**: Cada inscrição está vinculada a uma turma específica.
 
-5. **Execução das Stored Procedures**
-    - Execute o arquivo `stored_procedures.sql` para criar as stored procedures.
+#### Funcionamento da Inscrição e Cálculo da Nota Média
 
-6. **Execução do Cursor**
-    - Execute o arquivo `cursor.sql` para criar a stored procedure que utiliza o cursor.
+- Quando um estudante é inscrito em uma turma, uma nova entrada é adicionada à tabela Inscrições com a nota final do estudante para aquela turma.
+- A cada nova inscrição ou atualização de nota, a média das notas do estudante é recalculada e atualizada na tabela NotasMedias.
+- Caso um estudante se inscreva em múltiplas turmas com notas diferentes, a média refletirá a combinação dessas notas.
 
-7. **Realização de Consultas**
-    - Execute o arquivo `queries.sql` para realizar as consultas e verificar os dados.
+#### Exemplo de Fluxo de Dados
 
-8. **Utilização das Stored Procedures**
-    - Utilize as stored procedures para registrar inscrições, atualizar dados de estudantes e calcular médias de notas conforme necessário.
+1. **Registrar um Estudante**: Inserir informações na tabela Estudantes.
+2. **Criar uma Turma**: Inserir dados na tabela Turmas, vinculando um professor e uma disciplina.
+3. **Inscrever um Estudante em uma Turma**: Adicionar uma nova linha na tabela Inscrições com a nota final. O sistema automaticamente recalcula e atualiza a média das notas desse estudante na tabela NotasMedias.
+4. **Consultar Notas e Turmas**: Executar consultas para listar as turmas de um professor, estudantes inscritos em uma turma, ou notas finais dos estudantes.
 
----
-
-### Arquivos SQL
-
-1. [create_tables.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/create_tables.sql)
-2. [triggers.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/triggers.sql)
-3. [inserts.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/inserts.sql)
-4. [queries.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/queries.sql)
-5. [stored_procedures.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/stored_procedures.sql)
-6. [cursor.sql](https://github.com/FranciscoSimas/Projeto-SQL--Escola/blob/main/SQL%20Files/cursor.sql)
-
----
-
+Esse sistema é desenhado para facilitar o gerenciamento acadêmico, proporcionando uma visão clara das inscrições, desempenho dos estudantes e atribuições dos professores.
 
