@@ -194,13 +194,38 @@ DELIMITER ;
 
 Este sistema de gestão escolar é projetado para gerenciar informações sobre estudantes, professores, disciplinas, turmas e inscrições. Abaixo, explicamos o funcionamento da base de dados e as relações entre as tabelas.
 
-#### Estrutura da Base de Dados
+## Estrutura da Base de Dados
+
+### Exemplo de Fluxo de Dados Atualizado
+
+1. **Registrar um Estudante**: 
+   - Inserir informações na tabela `Estudantes` com detalhes como nome, data de nascimento e ano escolar.
+
+2. **Registrar Professores**: 
+   - Inserir dados na tabela `Professores` com informações como nome e departamento a que pertencem.
+
+3. **Registrar Disciplinas**: 
+   - Inserir dados na tabela `Disciplinas` com informações como nome e departamento correspondente.
+
+4. **Criar uma Turma**: 
+   - Inserir dados na tabela `Turmas`, como nome da turma e ano letivo.
+
+5. **Atribuir Professores a uma Turma**: 
+   - Inserir registros na tabela `TurmasProfessores` para associar um ou mais professores à turma recém-criada.
+
+6. **Associar Disciplinas a uma Turma**: 
+   - Inserir registros na tabela `TurmasDisciplinas` para associar uma ou mais disciplinas à turma recém-criada.
+
+7. **Inscrever um Estudante em uma Turma**: 
+   - Adicionar uma nova inscrição na tabela `Inscricoes` com o ID do estudante, o ID da turma e a nota final do estudante na disciplina associada à turma.
+   - O sistema automaticamente recalcula e atualiza a média das notas do estudante na tabela `NotasMedias`.
+
 
 #### Relações entre as Tabelas
 
 - **Estudantes e Inscrições**: Cada estudante pode se inscrever em várias turmas, e cada inscrição registra a nota final do estudante na turma correspondente.
-- **Professores e Turmas**: Cada turma é ministrada por um professor, e a relação é estabelecida através do ID do professor na tabela Turmas.
-- **Disciplinas e Turmas**: Cada turma está associada a uma disciplina específica, referenciada pelo ID da disciplina na tabela Turmas.
+- **Professores e Turmas**: Cada turma pode ser ministrada por um ou mais professores, e a relação é estabelecida através de uma tabela de ligação TurmasProfessores.
+- **Disciplinas e Turmas**: Cada turma pode estar associada a uma ou mais disciplinas, e a relação é estabelecida através de uma tabela de ligação TurmasDisciplinas.
 - **Inscrições e Turmas**: Cada inscrição está vinculada a uma turma específica.
 
 #### Funcionamento da Inscrição e Cálculo da Nota Média
@@ -209,12 +234,7 @@ Este sistema de gestão escolar é projetado para gerenciar informações sobre 
 - A cada nova inscrição ou atualização de nota, a média das notas do estudante é recalculada e atualizada na tabela NotasMedias.
 - Caso um estudante se inscreva em múltiplas turmas com notas diferentes, a média refletirá a combinação dessas notas.
 
-#### Exemplo de Fluxo de Dados
 
-1. **Registrar um Estudante**: Inserir informações na tabela Estudantes.
-2. **Criar uma Turma**: Inserir dados na tabela Turmas, vinculando um professor e uma disciplina.
-3. **Inscrever um Estudante em uma Turma**: Adicionar uma nova linha na tabela Inscrições com a nota final. O sistema automaticamente recalcula e atualiza a média das notas desse estudante na tabela NotasMedias.
-4. **Consultar Notas e Turmas**: Executar consultas para listar as turmas de um professor, estudantes inscritos em uma turma, ou notas finais dos estudantes.
 
-Esse sistema é desenhado para facilitar o gerenciamento acadêmico, proporcionando uma visão clara das inscrições, desempenho dos estudantes e atribuições dos professores.
 
+Esse fluxo de dados garante que todas as informações relacionadas a estudantes, professores, disciplinas e turmas sejam inseridas e gerenciadas de forma organizada e sem duplicidade, facilitando o controle acadêmico da instituição.
