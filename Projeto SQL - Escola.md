@@ -33,8 +33,6 @@ O projeto está organizado em diferentes arquivos SQL, cada um responsável por 
 4. **Turmas**
     - **ID**: Identificador único da turma (INT, AUTO_INCREMENT, PRIMARY KEY)
     - **Nome**: Nome da turma (VARCHAR(100), NOT NULL)
-    - **DisciplinaID**: Identificador da disciplina ministrada na turma (INT, NOT NULL, FOREIGN KEY)
-    - **ProfessorID**: Identificador do professor que ministra a turma (INT, NOT NULL, FOREIGN KEY)
     - **AnoLetivo**: Ano letivo da turma (INT, NOT NULL)
 
 5. **Inscricoes**
@@ -46,6 +44,16 @@ O projeto está organizado em diferentes arquivos SQL, cada um responsável por 
 6. **NotasMedias**
     - **EstudanteID**: Identificador do estudante (INT, PRIMARY KEY, FOREIGN KEY)
     - **MediaNotas**: Média das notas do estudante (DECIMAL(5,2))
+
+7. **TurmasProfessores**
+    - **TurmaID**: Identificador da turma (INT, FOREIGN KEY)
+    - **ProfessorID**: Identificador do professor (INT, FOREIGN KEY)
+    - **PRIMARY KEY** (TurmaID, ProfessorID)
+
+8. **TurmasDisciplinas**
+    - **TurmaID**: Identificador da turma (INT, FOREIGN KEY)
+    - **DisciplinaID**: Identificador da disciplina (INT, FOREIGN KEY)
+    - **PRIMARY KEY** (TurmaID, DisciplinaID)
 
 ---
 
@@ -79,6 +87,36 @@ O projeto está organizado em diferentes arquivos SQL, cada um responsável por 
     BEGIN
         IF EXISTS (SELECT 1 FROM Inscricoes WHERE EstudanteID = NEW.EstudanteID AND TurmaID = NEW.TurmaID) THEN
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Estudante já inscrito nesta turma';
+        END IF;
+    END;
+    //
+    DELIMITER ;
+    ```
+
+3. **Trigger ImpedeProfessorDuplicado**: Impede que um professor seja atribuído mais de uma vez à mesma turma.
+    ```sql
+    DELIMITER //
+    CREATE TRIGGER ImpedeProfessorDuplicado
+    BEFORE INSERT ON TurmasProfessores
+    FOR EACH ROW
+    BEGIN
+        IF EXISTS (SELECT 1 FROM TurmasProfessores WHERE TurmaID = NEW.TurmaID AND ProfessorID = NEW.ProfessorID) THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Professor já atribuído a esta turma';
+        END IF;
+    END;
+    //
+    DELIMITER ;
+    ```
+
+4. **Trigger ImpedeDisciplinaDuplicada**: Impede que uma disciplina seja atribuída mais de uma vez à mesma turma.
+    ```sql
+    DELIMITER //
+    CREATE TRIGGER ImpedeDisciplinaDuplicada
+    BEFORE INSERT ON TurmasDisciplinas
+    FOR EACH ROW
+    BEGIN
+        IF EXISTS (SELECT 1 FROM TurmasDisciplinas WHERE TurmaID = NEW.TurmaID AND DisciplinaID = NEW.DisciplinaID) THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Disciplina já atribuída a esta turma';
         END IF;
     END;
     //
@@ -190,11 +228,11 @@ DELIMITER ;
 
 ---
 
+
 ### Instruções para Configurar e Utilizar o Sistema
 
 Este sistema de gestão escolar é projetado para gerenciar informações sobre estudantes, professores, disciplinas, turmas e inscrições. Abaixo, explicamos o funcionamento da base de dados e as relações entre as tabelas.
 
-## Estrutura da Base de Dados
 
 ### Exemplo de Fluxo de Dados Atualizado
 
@@ -220,21 +258,18 @@ Este sistema de gestão escolar é projetado para gerenciar informações sobre 
    - Adicionar uma nova inscrição na tabela `Inscricoes` com o ID do estudante, o ID da turma e a nota final do estudante na disciplina associada à turma.
    - O sistema automaticamente recalcula e atualiza a média das notas do estudante na tabela `NotasMedias`.
 
-
 #### Relações entre as Tabelas
 
 - **Estudantes e Inscrições**: Cada estudante pode se inscrever em várias turmas, e cada inscrição registra a nota final do estudante na turma correspondente.
-- **Professores e Turmas**: Cada turma pode ser ministrada por um ou mais professores, e a relação é estabelecida através de uma tabela de ligação TurmasProfessores.
-- **Disciplinas e Turmas**: Cada turma pode estar associada a uma ou mais disciplinas, e a relação é estabelecida através de uma tabela de ligação TurmasDisciplinas.
+- **Professores e Turmas**: Cada turma pode ser ministrada por um ou mais professores, e a relação é estabelecida através de uma tabela de ligação `TurmasProfessores`.
+- **Disciplinas e Turmas**: Cada turma pode estar associada a uma ou mais disciplinas, e a relação é estabelecida através de uma tabela de ligação `TurmasDisciplinas`.
 - **Inscrições e Turmas**: Cada inscrição está vinculada a uma turma específica.
 
 #### Funcionamento da Inscrição e Cálculo da Nota Média
 
-- Quando um estudante é inscrito em uma turma, uma nova entrada é adicionada à tabela Inscrições com a nota final do estudante para aquela turma.
-- A cada nova inscrição ou atualização de nota, a média das notas do estudante é recalculada e atualizada na tabela NotasMedias.
+- Quando um estudante é inscrito em uma turma, uma nova entrada é adicionada à tabela `Inscricoes` com a nota final do estudante para aquela turma.
+- A cada nova inscrição ou atualização de nota, a média das notas do estudante é recalculada e atualizada na tabela `NotasMedias`.
 - Caso um estudante se inscreva em múltiplas turmas com notas diferentes, a média refletirá a combinação dessas notas.
 
-
-
-
 Esse fluxo de dados garante que todas as informações relacionadas a estudantes, professores, disciplinas e turmas sejam inseridas e gerenciadas de forma organizada e sem duplicidade, facilitando o controle acadêmico da instituição.
+
