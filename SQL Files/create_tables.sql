@@ -50,3 +50,20 @@ CREATE TABLE NotasMedias (
     MediaNotas DECIMAL(5,2),
     FOREIGN KEY (EstudanteID) REFERENCES Estudantes(ID)
 );
+
+CREATE TABLE TurmasProfessores (
+    TurmaID INT,
+    ProfessorID INT,
+    PRIMARY KEY (TurmaID, ProfessorID),
+    FOREIGN KEY (TurmaID) REFERENCES Turmas(ID),
+    FOREIGN KEY (ProfessorID) REFERENCES Professores(ID)
+);
+
+CREATE TABLE TurmasDisciplinas (
+    TurmaID INT,
+    DisciplinaID INT,
+    PRIMARY KEY (TurmaID, DisciplinaID),
+    FOREIGN KEY (TurmaID) REFERENCES Turmas(ID),
+    FOREIGN KEY (DisciplinaID) REFERENCES Disciplinas(ID)
+);
+
