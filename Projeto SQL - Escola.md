@@ -378,7 +378,7 @@ Esse fluxo de dados garante que todas as informações relacionadas a estudantes
     - **Resultado Esperado**: O valor da média calculada deve ser retornado na variável `@media`.
     ```sql
     -- Calcular a média de notas de um estudante em um determinado período
-    CALL CalculaMediaNotas(1, 2023, 2023, @media);
+    CALL CalculaMediaNotas(1, 2023, 2024, @media);
     SELECT @media;
     ```
 
@@ -390,7 +390,7 @@ Esse fluxo de dados garante que todas as informações relacionadas a estudantes
     - **Resultado Esperado**: O relatório deve listar todos os estudantes e suas notas finais em cada turma no período especificado.
     ```sql
     -- Gerar um relatório de notas
-    CALL RelatorioNotas(2023, 2023);
+    CALL RelatorioNotas(2023, 2024);
     ```
 
 
