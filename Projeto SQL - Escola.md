@@ -273,3 +273,125 @@ Este sistema de gestão escolar é projetado para gerenciar informações sobre 
 
 Esse fluxo de dados garante que todas as informações relacionadas a estudantes, professores, disciplinas e turmas sejam inseridas e gerenciadas de forma organizada e sem duplicidade, facilitando o controle acadêmico da instituição.
 
+
+
+
+
+
+
+
+
+
+
+---
+
+## Testando o Sistema
+
+### Testando Triggers
+
+1. **Trigger AtualizaMediaNota**:
+       **Explicação**: 
+    - **Resultado Esperado**: A tabela `NotasMedias` deve mostrar a média para o estudante com ID 1.
+    ```sql
+    -- Inserir um estudante
+    INSERT INTO Estudantes (Nome, DataNascimento, Ano) VALUES ('João Silva', '2005-04-10', 10);
+
+    -- Inserir uma turma
+    INSERT INTO Turmas (Nome, AnoLetivo) VALUES ('Turma A', 2023);
+
+    -- Inserir uma inscrição (isso deve acionar o trigger)
+    INSERT INTO Inscricoes (EstudanteID, TurmaID, NotaFinal) VALUES (1, 1, 85.5);
+
+    -- Verificar se a média foi atualizada
+    SELECT * FROM NotasMedias WHERE EstudanteID = 1;
+    ```
+
+
+3. **Trigger ImpedeInscricaoDuplicada**:
+       **Explicação**: 
+    - **Resultado Esperado**: Um erro deve ser gerado, indicando que o estudante já está inscrito nesta turma.
+    ```sql
+    -- Tentar inserir a mesma inscrição novamente (isso deve falhar)
+    INSERT INTO Inscricoes (EstudanteID, TurmaID, NotaFinal) VALUES (1, 1, 90.0);
+    ```
+
+
+4. **Trigger ImpedeDuplicidadeTurmaProfessor**:
+       **Explicação**: 
+    - **Resultado Esperado**: Um erro deve ser gerado, impedindo a duplicidade de dados na tabela `TurmasProfessores`.
+    ```sql
+    -- Inserir um professor
+    INSERT INTO Professores (Nome, Departamento) VALUES ('Maria Oliveira', 'Matemática');
+
+    -- Associar o professor à turma
+    INSERT INTO TurmasProfessores (TurmaID, ProfessorID) VALUES (1, 1);
+
+    -- Tentar associar o mesmo professor à mesma turma novamente (isso deve falhar)
+    INSERT INTO TurmasProfessores (TurmaID, ProfessorID) VALUES (1, 1);
+    ```
+
+
+5. **Trigger ImpedeDuplicidadeTurmaDisciplina**:
+       **Explicação**: 
+    - **Resultado Esperado**: Um erro deve ser gerado, impedindo a duplicidade de dados na tabela `TurmasDisciplinas`.
+    ```sql
+    -- Inserir uma disciplina
+    INSERT INTO Disciplinas (Nome, Departamento) VALUES ('Matemática Avançada', 'Matemática');
+
+    -- Associar a disciplina à turma
+    INSERT INTO TurmasDisciplinas (TurmaID, DisciplinaID) VALUES (1, 1);
+
+    -- Tentar associar a mesma disciplina à mesma turma novamente (isso deve falhar)
+    INSERT INTO TurmasDisciplinas (TurmaID, DisciplinaID) VALUES (1, 1);
+    ```
+
+
+### Testando Stored Procedures
+
+1. **RegistraInscricao**:
+       **Explicação**: 
+    - **Resultado Esperado**: A tabela `Inscricoes` deve mostrar a nova inscrição e a tabela `NotasMedias` deve refletir a média atualizada.
+    ```sql
+    -- Registrar uma nova inscrição e atualizar a média de notas do estudante
+    CALL RegistraInscricao(1, 1, 92.0);
+
+    -- Verificar se a inscrição foi adicionada e a média atualizada
+    SELECT * FROM Inscricoes WHERE EstudanteID = 1;
+    SELECT * FROM NotasMedias WHERE EstudanteID = 1;
+    ```
+
+
+3. **AtualizaEstudante**:
+       **Explicação**: 
+    - **Resultado Esperado**: A tabela `Estudantes` deve mostrar os dados atualizados para o estudante com ID 1.
+    ```sql
+    -- Atualizar os dados de um estudante
+    CALL AtualizaEstudante(1, 'João Pedro Silva', '2005-04-10', 11);
+
+    -- Verificar se os dados foram atualizados
+    SELECT * FROM Estudantes WHERE ID = 1;
+    ```
+
+
+4. **CalculaMediaNotas**:
+       **Explicação**: 
+    - **Resultado Esperado**: O valor da média calculada deve ser retornado na variável `@media`.
+    ```sql
+    -- Calcular a média de notas de um estudante em um determinado período
+    CALL CalculaMediaNotas(1, 2023, 2023, @media);
+    SELECT @media;
+    ```
+
+
+### Testando Cursor
+
+1. **RelatorioNotas**:
+       **Explicação**: 
+    - **Resultado Esperado**: O relatório deve listar todos os estudantes e suas notas finais em cada turma no período especificado.
+    ```sql
+    -- Gerar um relatório de notas
+    CALL RelatorioNotas(2023, 2023);
+    ```
+
+
+
